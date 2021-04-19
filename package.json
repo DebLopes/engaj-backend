@@ -1,0 +1,8 @@
+{
+  "name": "engaj-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/DebLopes/engaj-backend.git",
+  "author": "Debora Lopes <deborasantoslop@gmail.com>",
+  "license": "MIT"
+}
