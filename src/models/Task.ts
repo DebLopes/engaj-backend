@@ -10,7 +10,7 @@ import {
 
 import Goal from './Goal';
 
-@Entity('task')
+@Entity('tasks')
 class Task {
   @PrimaryGeneratedColumn('uuid')
   id: string;

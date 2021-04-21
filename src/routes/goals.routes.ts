@@ -1,4 +1,8 @@
 import { Router } from 'express';
+import { parseISO } from 'date-fns';
+
+import CreateGoalService from '../services/CreateGoalService';
+import CreateGoalTasks from '../services/CreateGoalTasks';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
@@ -12,24 +16,30 @@ goalsRouter.get('/', async (request, response) => {
 });
 
 goalsRouter.post('/', async (request, response) => {
-  const { title, 	description, points,	startDate, 	endDate,tasks } = request.body;
+  const { title, description, points, startDate, endDate, tasks } = request.body;
 
-//   const authenticateUser = new AuthenticateUserService();
+  const user = request.user.id;
+  const createGoalService = new CreateGoalService();
+  const createGoalTasks = new CreateGoalTasks();
 
-//   const { user, token } = await authenticateUser.execute({
-//     email,
-//     password,
-//   });
+  const parseStartDate = parseISO(startDate);
+  const parseEndDate = parseISO(endDate);
 
-//   const userWithoutPassword = {
-//     id: user.id,
-//     name: user.name,
-//     email: user.email,
-//     created_at: user.created_at,
-//     updated_at: user.updated_at,
-//   };
+  const goal = await createGoalService.execute({
+    title,
+    description,
+    points,
+    startDate: parseStartDate,
+    endDate: parseEndDate,
+    user_id: user
+  });
 
-  return response.json({message: 'oi' });
+  const listTasks = await createGoalTasks.execute({
+    tasks,
+    goal_id: goal.id
+  })
+
+  return response.json({ ...goal, listTasks });
 });
 
 export default goalsRouter;
