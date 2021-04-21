@@ -30,6 +30,10 @@ export default class CreateUsers1618805129715 implements MigrationInterface {
 						name: 'balance',
 						type: 'int',
 						default: 0,
+          },
+          {
+						name: 'description',
+						type: 'varchar',
 					},
 					{
 						name: 'created_at',

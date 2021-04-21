@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
 
 export default class CreateGoals1618807116535 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
@@ -42,13 +42,31 @@ export default class CreateGoals1618807116535 implements MigrationInterface {
 						name: 'updated_at',
 						type: 'timestamp',
 						default: 'now()',
-					},
+          },
+          {
+            name: 'user_id',
+            type: 'uuid',
+            isNullable: true,
+          },
 				],
 			}),
-		);
+    );
+
+    await queryRunner.createForeignKey(
+      'goals',
+      new TableForeignKey({
+        name: 'GoalUser',
+        columnNames: ['user_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'users',
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+      }),
+    );
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey('goals', 'GoalUser');
 		await queryRunner.dropTable('goals');
 	}
 

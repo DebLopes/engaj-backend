@@ -2,29 +2,31 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('users')
-class User {
+import Goal from './Goal';
+
+@Entity('task')
+class Task {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  name: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  password: string;
-
-  @Column()
-  balance: number;
-
-  @Column()
   description: string;
+
+  @Column()
+  done: boolean;
+
+  @Column()
+  goal_id: string;
+
+  @ManyToOne(() => Goal)
+  @JoinColumn({ name: 'goal_id' })
+  goal: Goal;
 
   @CreateDateColumn()
   created_at: Date;
@@ -33,4 +35,4 @@ class User {
   updated_at: Date;
 }
 
-export default User;
+export default Task;
