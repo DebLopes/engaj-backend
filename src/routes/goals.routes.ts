@@ -12,7 +12,7 @@ goalsRouter.get('/', async (request, response) => {
 });
 
 goalsRouter.post('/', async (request, response) => {
-  const { email, password } = request.body;
+  const { title, 	description, points,	startDate, 	endDate,tasks } = request.body;
 
 //   const authenticateUser = new AuthenticateUserService();
 
