@@ -14,9 +14,9 @@ rewardsRouter.get('/', async (request, response) => {
   const user = request.user.id;
   const rewardRepository = getRepository(Reward);
 
-  const reward = await rewardRepository.find({ where: { user_id: user } });
+  const rewards = await rewardRepository.find({ where: { user_id: user } });
 
-  return response.json(reward);
+  return response.json(rewards);
 })
 
 rewardsRouter.post('/', async (request, response) => {
