@@ -1,3 +1,4 @@
+import dotenv from 'dotenv'
 import 'reflect-metadata';
 
 import express, { Request, Response, NextFunction } from 'express';
@@ -8,6 +9,8 @@ import uploadConfig from './config/upload';
 import AppError from './errors/AppError';
 
 import './database';
+
+dotenv.config();
 
 const app = express();
 
