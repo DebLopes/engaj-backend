@@ -1,19 +1,17 @@
-console.log('process.env.Host >>',process.env.Host);
+console.log('process.env.DATABASE_URL >>', process.env.DATABASE_URL);
+console.log('process.env.DATABASE_URL >>', process.env.ENVIRONMENT);
+
 module.exports = {
   "name": "default",
   "type": "postgres",
-  "host": process.env.Host,
-  "port": process.env.Port,
-  "username": process.env.User,
-  "password": process.env.Password,
-  "database": process.env.Database,
+  "url": process.env.DATABASE_URL,
   "entities": [
-    process.env.Host == 'localhost' ?
+    process.env.ENVIRONMENT == "desenvolvimento" ?
     "./src/models/*.ts" :
     "./dist/models/*.js"
   ],
   "migrations": [
-    process.env.Host === 'localhost' ?
+    process.env.ENVIRONMENT == "desenvolvimento" ?
     "./src/database/migrations/*.ts" :
     "./dist/database/migrations/*.js"
   ],
