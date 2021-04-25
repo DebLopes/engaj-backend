@@ -5,7 +5,7 @@ import { getRepository } from 'typeorm';
 
 import CreateGoalService from '../services/CreateGoalService';
 import CreateGoalTasks from '../services/CreateGoalTasks';
-
+import DeleteGoalService from '../services/DeleteGoalService';
 import Goal from '../models/Goal';
 import Task from '../models/Task';
 
@@ -56,6 +56,17 @@ goalsRouter.post('/', async (request, response) => {
   })
 
   return response.json({ ...goal, listTasks });
+});
+
+goalsRouter.delete('/:id', async (request, response) => {
+  const user = request.user.id;
+  const { id } = request.params;
+
+  const deleteGoal = new DeleteGoalService();
+
+  await deleteGoal.execute({id, user});
+
+  return response.status(204).send();
 });
 
 export default goalsRouter;
