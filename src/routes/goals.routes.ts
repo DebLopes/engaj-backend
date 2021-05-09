@@ -6,6 +6,7 @@ import { getRepository } from 'typeorm';
 import CreateGoalService from '../services/CreateGoalService';
 import CreateGoalTasks from '../services/CreateGoalTasks';
 import DeleteGoalService from '../services/DeleteGoalService';
+import UpdateTaskService from '../services/UpdateTaskService';
 import Goal from '../models/Goal';
 import Task from '../models/Task';
 
@@ -26,7 +27,6 @@ goalsRouter.get('/', async (request, response) => {
     const tasks = await taskRepository.find({ where: { goal_id: goal.id } });
     return { ...goal, tasks }
   }));
-
 
   return response.json(listaGoals);
 });
@@ -64,9 +64,30 @@ goalsRouter.delete('/:id', async (request, response) => {
 
   const deleteGoal = new DeleteGoalService();
 
-  await deleteGoal.execute({id, user});
+  await deleteGoal.execute({ id, user });
 
   return response.status(204).send();
+});
+
+
+goalsRouter.patch('/:id', async (request, response) => {
+  const userId = request.user.id;
+  const { id } = request.params;
+
+  const updateTask = new UpdateTaskService();
+
+  const user = await updateTask.execute({ id, userId });
+
+  const userWithoutPassword = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    balance: user.balance,
+    created_at: user.created_at,
+    updated_at: user.updated_at,
+  };
+
+  return response.json(userWithoutPassword);
 });
 
 export default goalsRouter;
