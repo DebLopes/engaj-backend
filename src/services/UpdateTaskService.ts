@@ -46,7 +46,7 @@ class UpdateTaskService {
     const tasks = await taskRepository.find({ where: { goal_id: goal.id } });
 
     if (tasks.every(t => t.done)) {
-        user.balance = goal.points;
+        user.balance += goal.points;
         await userRepository.save(user);
     }
 
